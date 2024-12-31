@@ -14,8 +14,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { actions } from 'astro:actions';
+import { HOST } from '@/lib/enum';
 
 export function TableDemo({ data }) {
+  const userToken = new Date().getTime();
+
   return (
     <Table>
       <TableHeader>
@@ -30,7 +33,14 @@ export function TableDemo({ data }) {
       <TableBody>
         {data.map((i) => (
           <TableRow key={i.id}>
-            <TableCell className="font-bold">{i.short_code}</TableCell>
+            <TableCell className="font-bold">
+              <a
+                href={`${HOST}/${i.short_code}?token=${userToken}`}
+                target="_blank"
+              >
+                {i.short_code}
+              </a>
+            </TableCell>
             <TableCell className="">
               <a href={fLink(i.origin)} target="_blank">
                 {fLink(i.origin)}
