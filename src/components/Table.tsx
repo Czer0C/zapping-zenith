@@ -7,7 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Trash2 } from 'lucide-react';
+import {
+  Check,
+  CheckCheck,
+  CheckCircle,
+  CheckCircle2,
+  Edit2,
+  Trash2,
+  XCircleIcon,
+} from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -15,9 +23,28 @@ import {
 } from '@/components/ui/popover';
 import { actions } from 'astro:actions';
 import { HOST } from '@/lib/enum';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
 
 export function TableDemo({ data }) {
   const userToken = new Date().getTime();
+
+  const [editing, setEditing] = useState(null);
+
+  const handleSubmitEdit = async () => {
+    const { data, error } = await actions.updateData({
+      short_code: editing.short_code,
+      url: editing.origin,
+    });
+
+    if (data) {
+      console.log(data);
+    } else {
+      alert(error?.message);
+    }
+
+    window.location.reload();
+  };
 
   return (
     <Table>
@@ -41,21 +68,42 @@ export function TableDemo({ data }) {
                 {i.short_code}
               </a>
             </TableCell>
-            <TableCell className="">
-              <a href={fLink(i.origin)} target="_blank">
-                {fLink(i.origin)}
-              </a>
+            <TableCell className="" onDoubleClick={() => setEditing(i)}>
+              {editing?.id === i.id ? (
+                <div className="flex  items-center gap-2">
+                  <Input
+                    type="text"
+                    value={editing.origin}
+                    onChange={(e) =>
+                      setEditing({ ...editing, origin: e.target.value })
+                    }
+                  />
+                  <div className="w-10">
+                    <Button onClick={handleSubmitEdit} variant="ghost">
+                      <CheckCircle color="green" />
+                    </Button>
+                    <Button onClick={() => setEditing(null)} variant="ghost">
+                      <XCircleIcon size={20} />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                i.origin
+              )}
             </TableCell>
+
             <TableCell className="text-right">
               {new Date(i.created_at).toLocaleString()}
             </TableCell>
+
             <TableCell className="text-right">
               {new Date(i.updated_at).toLocaleString()}
             </TableCell>
+
             <TableCell className="text-right">
               <Popover>
                 <PopoverTrigger className="flex items-center">
-                  <Trash2 />
+                  <Trash2 color="red" />
                 </PopoverTrigger>
                 <PopoverContent>
                   <div>

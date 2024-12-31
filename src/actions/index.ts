@@ -38,11 +38,11 @@ export const server = {
 
   updateData: defineAction({
     input: z.object({
-      id: z.string(),
+      short_code: z.string(),
       url: z.string(),
     }),
-    handler: async ({ id, url }) => {
-      const response = await fetch(`${HOST}/slash/${id}`, {
+    handler: async ({ short_code, url }) => {
+      const response = await fetch(`${HOST}/slash/${short_code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
