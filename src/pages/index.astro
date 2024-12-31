@@ -1,12 +1,12 @@
 ---
 import BaseHead from '../components/BaseHead.astro'
-import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import Header from '../components/Header.astro'
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts'
 
-import { Button } from '@/components/ui/button'
-import { TableDemo } from '@/components/Table'
 import { CommandDemo } from '@/components/Command'
+import { FormLink } from '@/components/FormLink'
+import { TableDemo } from '@/components/Table'
 
 export const prerender = false
 
@@ -14,11 +14,19 @@ export const prerender = false
 
 // const { data, error } = await actions.getData();
 
-const data = await fetch('http://34.143.206.52/links', {
-  headers: {
-    Authorization: `Bearer zenzeIsMoe`,
-  },
-}).then((res) => res.json())
+// const data = await fetch('http://34.143.206.52/links', {
+//   headers: {
+//     Authorization: `Bearer zenzeIsMoe`,
+//   },
+// }).then((res) => res.json())
+
+import { actions } from 'astro:actions'
+
+const { data, error } = await Astro.callAction(actions.readData)
+
+const reload = () => {
+  window.location.reload()
+}
 ---
 
 <!doctype html>
@@ -34,7 +42,9 @@ const data = await fetch('http://34.143.206.52/links', {
 
       <CommandDemo client:only />
 
-      <TableDemo data={data} />
+      <TableDemo client:only data={data} />
+
+      <FormLink client:only />
     </main>
     <Footer />
   </body>
