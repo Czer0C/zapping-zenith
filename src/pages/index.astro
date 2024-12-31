@@ -1,0 +1,41 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+
+import { Button } from '@/components/ui/button'
+import { TableDemo } from '@/components/Table'
+import { CommandDemo } from '@/components/Command'
+
+export const prerender = true
+
+// import { actions } from 'astro:actions';
+
+// const { data, error } = await actions.getData();
+
+const data = await fetch('http://34.143.206.52/links', {
+  headers: {
+    Authorization: `Bearer zenzeIsMoe`,
+  },
+}).then((res) => res.json())
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <h1>🧑‍🚀 Hello, Astronaut!</h1>
+
+      <CommandDemo client:only />
+
+      <TableDemo data={data} />
+    </main>
+    <Footer />
+  </body>
+</html>
