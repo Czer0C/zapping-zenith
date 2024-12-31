@@ -31,7 +31,11 @@ export function TableDemo({ data }) {
         {data.map((i) => (
           <TableRow key={i.id}>
             <TableCell className="font-bold">{i.short_code}</TableCell>
-            <TableCell className="">{i.origin}</TableCell>
+            <TableCell className="">
+              <a href={fLink(i.origin)} target="_blank">
+                {fLink(i.origin)}
+              </a>
+            </TableCell>
             <TableCell className="text-right">
               {new Date(i.created_at).toLocaleString()}
             </TableCell>
@@ -82,3 +86,11 @@ export function TableDemo({ data }) {
     </Table>
   );
 }
+
+const fLink = (link: string) => {
+  if (link.startsWith('http://') || link.startsWith('https://')) {
+    return link;
+  }
+
+  return 'https://' + link;
+};

@@ -23,10 +23,6 @@ export const prerender = false
 import { actions } from 'astro:actions'
 
 const { data, error } = await Astro.callAction(actions.readData)
-
-const reload = () => {
-  window.location.reload()
-}
 ---
 
 <!doctype html>
@@ -38,7 +34,7 @@ const reload = () => {
     <Header />
 
     <main>
-      <h1>🧑‍🚀 Hello, Astronaut!</h1>
+      <h1>🔗 LIST LINKS</h1>
 
       <CommandDemo client:only />
 
