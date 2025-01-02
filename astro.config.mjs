@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 import react from '@astrojs/react';
+import svelte from '@astrojs/svelte';
 
 import tailwind from '@astrojs/tailwind';
 
@@ -19,6 +20,7 @@ export default defineConfig({
     mdx(),
     sitemap(),
     react(),
+    svelte(),
     tailwind({
       applyBaseStyles: false,
     }),

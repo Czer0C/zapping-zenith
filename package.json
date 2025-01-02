@@ -14,6 +14,7 @@
     "@astrojs/react": "^4.1.2",
     "@astrojs/rss": "^4.0.10",
     "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/svelte": "^7.0.2",
     "@astrojs/tailwind": "^5.1.4",
     "@astrojs/vercel": "^8.0.1",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -25,11 +26,14 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
+    "flowbite-svelte": "^0.47.4",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "svelte": "^5.16.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.7.2"
   }
 }

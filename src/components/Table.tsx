@@ -3,6 +3,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -13,6 +14,7 @@ import {
   CheckCircle,
   CheckCircle2,
   Edit2,
+  PlusCircle,
   Trash2,
   XCircleIcon,
 } from 'lucide-react';
@@ -23,13 +25,21 @@ import {
 } from '@/components/ui/popover';
 import { actions } from 'astro:actions';
 import { HOST } from '@/lib/enum';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
-export function TableDemo({ data }) {
+export function TableDemo() {
   const userToken = new Date().getTime();
 
+  const [t, setT] = useState([]);
+
   const [editing, setEditing] = useState(null);
+
+  useEffect(() => {
+    actions.readData().then(({ data }) => {
+      setT(data);
+    });
+  }, []);
 
   const handleSubmitEdit = async () => {
     const { data, error } = await actions.updateData({
@@ -42,8 +52,6 @@ export function TableDemo({ data }) {
     } else {
       alert(error?.message);
     }
-
-    window.location.reload();
   };
 
   return (
@@ -58,7 +66,7 @@ export function TableDemo({ data }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((i) => (
+        {t.map((i) => (
           <TableRow key={i.id}>
             <TableCell className="font-bold">
               <a
@@ -119,12 +127,14 @@ export function TableDemo({ data }) {
                       });
 
                       if (data) {
-                        console.log(data);
+                        actions.readData().then(({ data }) => {
+                          setT(data);
+                        });
                       } else {
                         alert(error?.message);
                       }
 
-                      window.location.reload();
+                      // window.location.reload();
                     }}
                   >
                     Confirm
@@ -135,13 +145,49 @@ export function TableDemo({ data }) {
           </TableRow>
         ))}
       </TableBody>
-      {/* <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter> */}
+
+      <TableFooter>
+        <TableCell colSpan={5}>
+          <Form setT={setT} />
+        </TableCell>
+      </TableFooter>
     </Table>
+  );
+}
+
+function Form({ setT }) {
+  const [link, setLink] = useState('');
+
+  const submitShortLink = async () => {
+    const { data, error } = await actions.createData({ url: link });
+
+    if (data) {
+      actions.readData().then(({ data }) => {
+        setT(data);
+        setLink('');
+      });
+      // });
+    } else {
+      alert(error?.message);
+    }
+  };
+
+  return (
+    <>
+      <div className="w-full grid grid-cols-4 items-center gap-4">
+        <Input
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          type="email"
+          placeholder="Link"
+          className="col-span-3"
+        />
+
+        <Button disabled={!link} onClick={submitShortLink}>
+          <PlusCircle /> Generate Short Link
+        </Button>
+      </div>
+    </>
   );
 }
 

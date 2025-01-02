@@ -2,27 +2,10 @@
 import BaseHead from '../components/BaseHead.astro'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
+import ReactZone from '../components/ReactZone'
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts'
 
-import { CommandDemo } from '@/components/Command'
-import { FormLink } from '@/components/FormLink'
-import { TableDemo } from '@/components/Table'
-
-export const prerender = false
-
-// import { actions } from 'astro:actions';
-
-// const { data, error } = await actions.getData();
-
-// const data = await fetch('http://34.143.206.52/links', {
-//   headers: {
-//     Authorization: `Bearer zenzeIsMoe`,
-//   },
-// }).then((res) => res.json())
-
-import { actions } from 'astro:actions'
-
-const { data, error } = await Astro.callAction(actions.readData)
+import MEXC from '@/components/MEXC.svelte'
 ---
 
 <!doctype html>
@@ -36,11 +19,9 @@ const { data, error } = await Astro.callAction(actions.readData)
     <main>
       <h1>🔗 LIST LINKS</h1>
 
-      <CommandDemo client:only />
+      <ReactZone client:only='react' />
 
-      <TableDemo client:only data={data} />
-
-      <FormLink client:only />
+      <MEXC client:only />
     </main>
     <Footer />
   </body>
