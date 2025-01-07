@@ -2,6 +2,7 @@
   import { Heading } from 'flowbite-svelte';
   import { onMount } from 'svelte';
   import Change from './Change.svelte';
+  import { formatNum } from '@/lib/formatNum';
 
   let socket: WebSocket;
 
@@ -87,7 +88,7 @@
 
       if (key && typeof dict?.[key] !== 'undefined') {
         dict[key] = {
-          latest: deal.p,
+          latest: formatNum(deal?.p),
           change: deal?.v,
           time: new Date(deal?.t).toLocaleString(),
           name: dict[key].name,
@@ -97,28 +98,28 @@
   });
 </script>
 
-<div class="grid w-full grid-cols-2 gap-4">
+<div class="grid w-full grid-cols-3 gap-4">
   {#each Object.keys(dict) as coin}
     <div
-      class="flex w-full items-center justify-between rounded-lg bg-slate-800 p-4 shadow-lg"
+      class="flex w-full items-center justify-between rounded-lg bg-slate-200 p-4 shadow-lg"
     >
       <div class="flex-shrink-0">
         <b class="text-lg text-indigo-500">
           {dict[coin].name}
         </b>
 
-        <Heading tag="h3" class="text-2xl">{dict[coin].latest}</Heading>
+        <Heading tag="h3" class="text-xl">{dict[coin].latest || '__'}</Heading>
 
-        <p class="text-base font-light text-gray-500 dark:text-gray-400">
-          {dict[coin].time}
-        </p>
+        <time class="text-sm font-light text-gray-500 dark:text-gray-400">
+          {dict[coin].time || '__'}
+        </time>
       </div>
 
-      <Change
+      <!-- <Change
         value={+dict[coin].change}
         since=""
         class="justify-end font-medium"
-      />
+      /> -->
     </div>
   {/each}
 </div>
